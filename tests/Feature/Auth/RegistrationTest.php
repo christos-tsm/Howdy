@@ -1,5 +1,7 @@
 <?php
 
+use Spatie\Permission\Models\Role;
+
 uses(\Illuminate\Foundation\Testing\RefreshDatabase::class);
 
 test('registration screen can be rendered', function () {
@@ -9,6 +11,9 @@ test('registration screen can be rendered', function () {
 });
 
 test('new users can register', function () {
+    // Create the 'user' role first
+    Role::create(['name' => 'user']);
+
     // Post registration request
     $response = $this->post('/register', [
         'first_name'            => 'Test',
