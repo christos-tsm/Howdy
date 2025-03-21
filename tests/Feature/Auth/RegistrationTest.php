@@ -24,6 +24,9 @@ test('new users can register', function () {
     $user = \App\Models\User::where('email', 'test@example.com')->first();
     $user->markEmailAsVerified();
 
+    // Login the user
+    $this->actingAs($user);
+
     // Assert that the user is authenticated
     $this->assertAuthenticated();
 
