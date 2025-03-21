@@ -9,13 +9,15 @@ test('registration screen can be rendered', function () {
 });
 
 test('new users can register', function () {
-    $response = $this->followingRedirects()->post('/register', [
+    $this->withoutMiddleware(\Illuminate\Auth\Middleware\EnsureEmailIsVerified::class);
+
+    $response = $this->post('/register', [
         'first_name' => 'Test',
-        'last_name' => 'User',
-        'dob' => '1993/11/24',
-        'phone' => '+30 695 544 4174',
-        'email' => 'test@example.com',
-        'password' => 'password',
+        'last_name'  => 'User',
+        'dob'        => '1993/11/24',
+        'phone'      => '+30 695 544 4174',
+        'email'      => 'test@example.com',
+        'password'   => 'password',
         'password_confirmation' => 'password',
     ]);
 
