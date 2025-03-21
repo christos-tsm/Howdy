@@ -9,7 +9,7 @@ test('registration screen can be rendered', function () {
 });
 
 test('new users can register', function () {
-    $response = $this->post('/register', [
+    $response = $this->followingRedirects()->post('/register', [
         'first_name' => 'Test',
         'last_name' => 'User',
         'dob' => '1993/11/24',
@@ -19,12 +19,13 @@ test('new users can register', function () {
         'password_confirmation' => 'password',
     ]);
 
+    // Now assert that the final response is the dashboard
+    $response->assertSee('Dashboard'); // adjust to check for some dashboard content
+
+    // And check that the user is authenticated
     $this->assertAuthenticated();
-    $response->assertRedirect(route('dashboard', absolute: false));
 
-    // Retrieve the newly-created user
+    // Retrieve the newly-created user and check their role
     $user = \App\Models\User::where('email', 'test@example.com')->first();
-
-    // Verify the user has the 'user' role
     $this->assertTrue($user->hasRole('user'));
 });
