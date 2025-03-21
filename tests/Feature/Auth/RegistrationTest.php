@@ -21,4 +21,10 @@ test('new users can register', function () {
 
     $this->assertAuthenticated();
     $response->assertRedirect(route('dashboard', absolute: false));
+
+    // Retrieve the newly-created user
+    $user = \App\Models\User::where('email', 'test@example.com')->first();
+
+    // Verify the user has the 'user' role
+    $this->assertTrue($user->hasRole('user'));
 });
