@@ -9,25 +9,27 @@ test('registration screen can be rendered', function () {
 });
 
 test('new users can register', function () {
-    $this->withoutMiddleware(\Illuminate\Auth\Middleware\EnsureEmailIsVerified::class);
-
+    // Post registration request
     $response = $this->post('/register', [
-        'first_name' => 'Test',
-        'last_name'  => 'User',
-        'dob'        => '1993/11/24',
-        'phone'      => '+30 695 544 4174',
-        'email'      => 'test@example.com',
-        'password'   => 'password',
+        'first_name'            => 'Test',
+        'last_name'             => 'User',
+        'dob'                   => '1993/11/24',
+        'phone'                 => '+30 695 544 4174',
+        'email'                 => 'test@example.com',
+        'password'              => 'password',
         'password_confirmation' => 'password',
     ]);
 
-    // Now assert that the final response is the dashboard
-    $response->assertSee('Dashboard'); // adjust to check for some dashboard content
+    // Retrieve the newly-created user and mark them as verified
+    $user = \App\Models\User::where('email', 'test@example.com')->first();
+    $user->markEmailAsVerified();
 
-    // And check that the user is authenticated
+    // Assert that the user is authenticated
     $this->assertAuthenticated();
 
-    // Retrieve the newly-created user and check their role
-    $user = \App\Models\User::where('email', 'test@example.com')->first();
+    // Follow redirect and assert we see expected dashboard content
+    $response->assertRedirect(route('dashboard', false));
+
+    // Verify the user has the 'user' role
     $this->assertTrue($user->hasRole('user'));
 });
