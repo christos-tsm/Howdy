@@ -14,13 +14,15 @@ import SettingsLayout from '@/layouts/settings/layout';
 
 const breadcrumbs: BreadcrumbItem[] = [
     {
-        title: 'Profile settings',
+        title: 'Ρυθμίσεις λογαριασμού',
         href: '/settings/profile',
     },
 ];
 
 type ProfileForm = {
-    name: string;
+    first_name: string;
+    last_name: string;
+    phone: string;
     email: string;
 }
 
@@ -28,7 +30,9 @@ export default function Profile({ mustVerifyEmail, status }: { mustVerifyEmail: 
     const { auth } = usePage<SharedData>().props;
 
     const { data, setData, patch, errors, processing, recentlySuccessful } = useForm<Required<ProfileForm>>({
-        name: auth.user.name,
+        first_name: auth.user.first_name,
+        last_name: auth.user.last_name,
+        phone: auth.user.phone,
         email: auth.user.email,
     });
 
@@ -46,40 +50,65 @@ export default function Profile({ mustVerifyEmail, status }: { mustVerifyEmail: 
 
             <SettingsLayout>
                 <div className="space-y-6">
-                    <HeadingSmall title="Profile information" description="Update your name and email address" />
+                    <HeadingSmall title="Πληροφορίες λογαριασμού" description="Ενημερώστε το όνομα, το τηλέφωνο σας και τη διεύθυνση email σας" />
 
                     <form onSubmit={submit} className="space-y-6">
-                        <div className="grid gap-2">
-                            <Label htmlFor="name">Name</Label>
-
-                            <Input
-                                id="name"
-                                className="mt-1 block w-full"
-                                value={data.name}
-                                onChange={(e) => setData('name', e.target.value)}
-                                required
-                                autoComplete="name"
-                                placeholder="Full name"
-                            />
-
-                            <InputError className="mt-2" message={errors.name} />
+                        <div className="flex gap-4">
+                            <div className="grid gap-2 flex-1">
+                                <Label htmlFor="first-name">Όνομα</Label>
+                                <Input
+                                    id="first-name"
+                                    className="mt-1 block w-full"
+                                    value={data.first_name}
+                                    onChange={(e) => setData('first_name', e.target.value)}
+                                    required
+                                    autoComplete="name"
+                                    placeholder="Όνομα"
+                                />
+                                <InputError className="mt-2" message={errors.first_name} />
+                            </div>
+                            <div className="grid gap-2 flex-1">
+                                <Label htmlFor="last-name">Επίθετο</Label>
+                                <Input
+                                    id="last-name"
+                                    className="mt-1 block w-full"
+                                    value={data.last_name}
+                                    onChange={(e) => setData('last_name', e.target.value)}
+                                    required
+                                    autoComplete="last_name"
+                                    placeholder="Επίθετο"
+                                />
+                                <InputError className="mt-2" message={errors.last_name} />
+                            </div>
                         </div>
-
-                        <div className="grid gap-2">
-                            <Label htmlFor="email">Email address</Label>
-
-                            <Input
-                                id="email"
-                                type="email"
-                                className="mt-1 block w-full"
-                                value={data.email}
-                                onChange={(e) => setData('email', e.target.value)}
-                                required
-                                autoComplete="username"
-                                placeholder="Email address"
-                            />
-
-                            <InputError className="mt-2" message={errors.email} />
+                        <div className="flex gap-4">
+                            <div className="grid gap-2 flex-1">
+                                <Label htmlFor="phone">Τηλέφωνο</Label>
+                                <Input
+                                    id="phone"
+                                    className="mt-1 block w-full"
+                                    value={data.phone}
+                                    onChange={(e) => setData('phone', e.target.value)}
+                                    required
+                                    autoComplete="phone"
+                                    placeholder="Τηλέφωνο"
+                                />
+                                <InputError className="mt-2" message={errors.last_name} />
+                            </div>
+                            <div className="grid gap-2 flex-1">
+                                <Label htmlFor="email">Email</Label>
+                                <Input
+                                    id="email"
+                                    type="email"
+                                    className="mt-1 block w-full"
+                                    value={data.email}
+                                    onChange={(e) => setData('email', e.target.value)}
+                                    required
+                                    autoComplete="email"
+                                    placeholder="Email"
+                                />
+                                <InputError className="mt-2" message={errors.email} />
+                            </div>
                         </div>
 
                         {mustVerifyEmail && auth.user.email_verified_at === null && (
@@ -105,8 +134,7 @@ export default function Profile({ mustVerifyEmail, status }: { mustVerifyEmail: 
                         )}
 
                         <div className="flex items-center gap-4">
-                            <Button disabled={processing}>Save</Button>
-
+                            <Button disabled={processing}>Αποθήκευση</Button>
                             <Transition
                                 show={recentlySuccessful}
                                 enter="transition ease-in-out"
@@ -114,12 +142,11 @@ export default function Profile({ mustVerifyEmail, status }: { mustVerifyEmail: 
                                 leave="transition ease-in-out"
                                 leaveTo="opacity-0"
                             >
-                                <p className="text-sm text-neutral-600">Saved</p>
+                                <p className="text-sm text-green-500">Οι αλλαγές αποθηκέυτηκαν</p>
                             </Transition>
                         </div>
                     </form>
                 </div>
-
                 <DeleteUser />
             </SettingsLayout>
         </AppLayout>

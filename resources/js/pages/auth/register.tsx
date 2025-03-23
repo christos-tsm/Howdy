@@ -50,15 +50,15 @@ export default function Register() {
     };
 
     return (
-        <AuthLayout title="Create an account" description="Enter your details below to create your account">
-            <Head title="Register" />
+        <AuthLayout title="Δημιουργία λογαριασμού" description="Εισάγετε τα στοιχεία σας παρακάτω για να δημιουργήσετε το λογαριασμό σας">
+            <Head title="Εγγραφή" />
             <form className="flex flex-col gap-6" onSubmit={submit}>
                 <div className="grid gap-6">
                     <div className="flex gap-6">
                         <div className="grid gap-2">
-                            <Label htmlFor="first_name">First name</Label>
+                            <Label htmlFor="first-name">Όνομα</Label>
                             <Input
-                                id="first_name"
+                                id="first-name"
                                 type="text"
                                 required
                                 autoFocus
@@ -67,14 +67,14 @@ export default function Register() {
                                 value={data.first_name}
                                 onChange={(e) => setData('first_name', e.target.value)}
                                 disabled={processing}
-                                placeholder="Full name"
+                                placeholder="Όνομα"
                             />
                             <InputError message={errors.first_name} className="mt-2" />
                         </div>
                         <div className="grid gap-2">
-                            <Label htmlFor="last_name">Last name</Label>
+                            <Label htmlFor="last-name">Επίθετο</Label>
                             <Input
-                                id="last_name"
+                                id="last-name"
                                 type="text"
                                 required
                                 autoFocus
@@ -83,13 +83,13 @@ export default function Register() {
                                 value={data.last_name}
                                 onChange={(e) => setData('last_name', e.target.value)}
                                 disabled={processing}
-                                placeholder="Full name"
+                                placeholder="Επίθετο"
                             />
                             <InputError message={errors.last_name} className="mt-2" />
                         </div>
                     </div>
                     <div className="grid gap-2">
-                        <Label htmlFor="dob">Date of birth</Label>
+                        <Label htmlFor="dob">Ημερομηνία γέννησης</Label>
                         <div className="grid grid-cols-3 gap-2">
                             <select
                                 id="month"
@@ -98,10 +98,10 @@ export default function Register() {
                                 onChange={(e) => handleDateChange('month', e.target.value)}
                                 disabled={processing}
                             >
-                                <option value="">Month</option>
+                                <option value="">Μήνας</option>
                                 {Array.from({ length: 12 }, (_, i) => i + 1).map((month) => (
                                     <option key={month} value={month.toString().padStart(2, '0')}>
-                                        {new Date(2000, month - 1, 1).toLocaleString('default', { month: 'long' })}
+                                        {new Date(2000, month - 1, 1).toLocaleString('el', { month: 'short' })}
                                     </option>
                                 ))}
                             </select>
@@ -113,7 +113,7 @@ export default function Register() {
                                 onChange={(e) => handleDateChange('day', e.target.value)}
                                 disabled={processing}
                             >
-                                <option value="">Day</option>
+                                <option value="">Ημέρα</option>
                                 {Array.from(
                                     {
                                         length: dateParts.month && dateParts.year
@@ -135,7 +135,7 @@ export default function Register() {
                                 onChange={(e) => handleDateChange('year', e.target.value)}
                                 disabled={processing}
                             >
-                                <option value="">Year</option>
+                                <option value="">Έτος</option>
                                 {Array.from(
                                     { length: new Date().getFullYear() - (new Date().getFullYear() - 100) },
                                     (_, i) => new Date().getFullYear() - 18 - i
@@ -150,7 +150,7 @@ export default function Register() {
                     </div>
                     <div className="flex gap-6">
                         <div className="grid gap-2">
-                            <Label htmlFor="email">Email address</Label>
+                            <Label htmlFor="email">Email</Label>
                             <Input
                                 id="email"
                                 type="email"
@@ -165,7 +165,7 @@ export default function Register() {
                             <InputError message={errors.email} />
                         </div>
                         <div className="grid gap-2">
-                            <Label htmlFor='phone'>Phone</Label>
+                            <Label htmlFor='phone'>Τηλέφωνο</Label>
                             <Input
                                 id="phone"
                                 type="tel"
@@ -179,7 +179,7 @@ export default function Register() {
                                     setData('phone', value);
                                 }}
                                 disabled={processing}
-                                placeholder="+1 (555) 555-5555"
+                                placeholder="+30 690 123 4567"
                                 pattern="^\+?[\d\s\-()]{10,}$"
                             />
                             <InputError message={errors.phone} />
@@ -187,7 +187,7 @@ export default function Register() {
                     </div>
 
                     <div className="grid gap-2">
-                        <Label htmlFor="password">Password</Label>
+                        <Label htmlFor="password">Κωδικός</Label>
                         <Input
                             id="password"
                             type="password"
@@ -197,13 +197,13 @@ export default function Register() {
                             value={data.password}
                             onChange={(e) => setData('password', e.target.value)}
                             disabled={processing}
-                            placeholder="Password"
+                            placeholder="Κωδικός"
                         />
                         <InputError message={errors.password} />
                     </div>
 
                     <div className="grid gap-2">
-                        <Label htmlFor="password_confirmation">Confirm password</Label>
+                        <Label htmlFor="password_confirmation">Επιβεβαίωση κωδικού</Label>
                         <Input
                             id="password_confirmation"
                             type="password"
@@ -213,21 +213,21 @@ export default function Register() {
                             value={data.password_confirmation}
                             onChange={(e) => setData('password_confirmation', e.target.value)}
                             disabled={processing}
-                            placeholder="Confirm password"
+                            placeholder="Επιβεβαίωση κωδικού"
                         />
                         <InputError message={errors.password_confirmation} />
                     </div>
 
                     <Button type="submit" className="mt-2 w-full" tabIndex={5} disabled={processing}>
                         {processing && <LoaderCircle className="h-4 w-4 animate-spin" />}
-                        Create account
+                        Δημιουργία λογαριασμού
                     </Button>
                 </div>
 
                 <div className="text-muted-foreground text-center text-sm">
-                    Already have an account?{' '}
+                    Έχετε ήδη λογαριασμό;{' '}
                     <TextLink href={route('login')} tabIndex={6}>
-                        Log in
+                        Σύνδεση
                     </TextLink>
                 </div>
             </form>
