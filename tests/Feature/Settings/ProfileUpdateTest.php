@@ -22,7 +22,6 @@ test('profile information can be updated', function () {
         ->patch('/settings/profile', [
             'first_name' => 'Test',
             'last_name' => 'User',
-            'dob' => '1993/11/24',
             'phone' => '+30 695 544 4174',
             'email' => 'test@example.com',
         ]);
