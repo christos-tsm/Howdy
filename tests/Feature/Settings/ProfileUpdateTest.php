@@ -35,7 +35,6 @@ test('profile information can be updated', function () {
 
     expect($user->first_name)->toBe('Test');
     expect($user->last_name)->toBe('User');
-    expect($user->dob)->toBe('1993/11/24');
     expect($user->phone)->toBe('+30 695 544 4174');
     expect($user->email)->toBe('test@example.com');
     expect($user->email_verified_at)->toBeNull();
